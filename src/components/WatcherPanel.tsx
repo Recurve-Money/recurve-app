@@ -15,7 +15,7 @@ enum Verdict {
 export function WatcherPanel() {
   const {address, isConnected} = useAccount();
   const registry = addresses.registry as `0x${string}`;
-  const reve = addresses.reve as `0x${string}`;
+  const recurveToken = addresses.recurveToken as `0x${string}`;
   const tx = useTx();
 
   const [amount, setAmount] = useState("");
@@ -27,11 +27,11 @@ export function WatcherPanel() {
       ? [
           {address: registry, abi: registryAbi, functionName: "watchers", args: [address]},
           {address: registry, abi: registryAbi, functionName: "minStake"},
-          {address: reve, abi: erc20Abi, functionName: "balanceOf", args: [address]},
-          {address: reve, abi: erc20Abi, functionName: "allowance", args: [address, registry]},
+          {address: recurveToken, abi: erc20Abi, functionName: "balanceOf", args: [address]},
+          {address: recurveToken, abi: erc20Abi, functionName: "allowance", args: [address, registry]},
         ]
       : [],
-    query: {enabled: Boolean(address && registry && reve), refetchInterval: 15_000},
+    query: {enabled: Boolean(address && registry && recurveToken), refetchInterval: 15_000},
   });
 
   const g = data?.[0]?.result as readonly [bigint, bigint, bigint, boolean] | undefined;
@@ -78,7 +78,7 @@ export function WatcherPanel() {
       )}
 
       <div className="panel">
-        <h3>Stake $REVE</h3>
+        <h3>Stake $RECURVE</h3>
         <div className="field">
           <input
             inputMode="decimal"
@@ -86,7 +86,7 @@ export function WatcherPanel() {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <span className="unit">REVE</span>
+          <span className="unit">RECURVE</span>
           <button className="max" onClick={() => setAmount(fmtRaw(balance))}>
             Max
           </button>
@@ -99,7 +99,7 @@ export function WatcherPanel() {
             run(async () => {
               if (needsApproval) {
                 await tx.send({
-                  address: reve,
+                  address: recurveToken,
                   abi: erc20Abi,
                   functionName: "approve",
                   args: [registry, maxUint256],
@@ -120,7 +120,7 @@ export function WatcherPanel() {
             : tx.isPending
               ? "Confirming\u2026"
               : needsApproval
-                ? "Approve REVE"
+                ? "Approve RECURVE"
                 : "Stake"}
         </button>
 
@@ -129,7 +129,7 @@ export function WatcherPanel() {
             {pendingUnstake > 0n ? (
               <>
                 <p className="hint">
-                  {fmt(pendingUnstake)} REVE pending. Stake stays slashable until it is
+                  {fmt(pendingUnstake)} RECURVE pending. Stake stays slashable until it is
                   withdrawn.
                 </p>
                 <button
@@ -230,7 +230,7 @@ export function WatcherPanel() {
         </div>
 
         {!active && (
-          <p className="hint">Stake at least {fmt(minStake)} REVE before casting verdicts.</p>
+          <p className="hint">Stake at least {fmt(minStake)} RECURVE before casting verdicts.</p>
         )}
       </div>
 
