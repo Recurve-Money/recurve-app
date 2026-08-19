@@ -191,7 +191,13 @@ footer {
   color: var(--muted); font-size: 14px; border: 1px dashed var(--rule); border-radius: 12px;
 }
 
-/* detail: proposals feed beside position/governor sidebar */
+.risk-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 16px; }
+.risk-stat { display: flex; flex-direction: column; gap: 6px; }
+.risk-stat .v { font-size: 24px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.risk-stat .v.up { color: #04241a; }
+.risk-stat .v.down { color: var(--err); }
+.risk-stat .k { font-size: 13px; color: var(--muted); }
+@media (max-width: 600px) { .risk-row { grid-template-columns: 1fr; gap: 14px; } }
 .detail-cols { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: 32px; align-items: start; }
 .detail-main h2 { font-size: 22px; font-weight: 500; letter-spacing: -.02em; margin-bottom: 18px; }
 .detail-side { display: flex; flex-direction: column; gap: 22px; }

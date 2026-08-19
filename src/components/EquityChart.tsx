@@ -1,38 +1,18 @@
-import {useEffect, useState} from "react";
-import {apiUrl} from "../lib/chain";
-
-interface Point {
-  t: string;
-  total_assets: string | null;
-  share_price: string | null;
-}
+import type {HistoryPoint} from "../hooks/useHistory";
 
 /**
  * Plain SVG, no chart library. The bundle already carries wagmi + RainbowKit;
  * a line and a dashed baseline do not need another dependency for it.
  */
-export function EquityChart({slug, decimals}: {slug: string; decimals: number}) {
-  const [points, setPoints] = useState<Point[] | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let live = true;
-    setPoints(null);
-    setFailed(false);
-    fetch(`${apiUrl}/funds/${slug}/history?range=7d`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(r)))
-      .then((d) => {
-        if (live) setPoints(d.points ?? []);
-      })
-      .catch(() => {
-        if (live) setFailed(true);
-      });
-    return () => {
-      live = false;
-    };
-  }, [slug]);
-
-  if (failed) return <p className="hint">Could not reach the indexer for history.</p>;
+export function EquityChart({
+  points,
+  decimals,
+  slug,
+}: {
+  points: HistoryPoint[] | null;
+  decimals: number;
+  slug: string;
+}) {
   if (!points) return <div className="chart-empty">Loading\u2026</div>;
 
   const values = points

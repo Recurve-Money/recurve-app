@@ -22,6 +22,10 @@ export function short(addr?: string): string {
   return addr.slice(0, 6) + "\u2026" + addr.slice(-4);
 }
 
+export function explorerAddr(addr: string): string {
+  return `https://explorer.testnet.chain.robinhood.com/address/${addr}`;
+}
+
 /** Parses user input without throwing on the half-typed states a text field produces. */
 export function parseAmount(input: string, decimals: number): bigint | null {
   const t = input.trim();

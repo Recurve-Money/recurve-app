@@ -1,5 +1,5 @@
 import {useGovernorParams} from "../hooks/useGovernor";
-import {short} from "../lib/format";
+import {explorerAddr, short} from "../lib/format";
 import type {VaultConfig} from "../lib/chain";
 
 function hours(seconds: bigint): string {
@@ -18,35 +18,16 @@ export function GovernorPanel({config}: {config: VaultConfig}) {
   return (
     <div className="side-card">
       <div className="side-card-head">
-        <span>Agents</span>
-        <span className="pill">{p.agents.length}</span>
-      </div>
-      {p.isLoading ? (
-        <p className="hint">Reading\u2026</p>
-      ) : p.agents.length === 0 ? (
-        <p className="hint">No agent registered on this fund yet.</p>
-      ) : (
-        <ul className="agent-list">
-          {p.agents.map((a, i) => (
-            <li key={a}>
-              <span className="agent-avatar">A{i + 1}</span>
-              <div>
-                <div className="agent-name">Agent #{i + 1}</div>
-                <code>{short(a)}</code>
-              </div>
-              <span className="dot on" title="Registered" />
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <div className="side-card-head" style={{marginTop: 28}}>
         <span>Governor</span>
       </div>
       <dl className="kv">
         <div>
           <dt>Contract</dt>
-          <dd><code>{short(config.governor)}</code></dd>
+          <dd>
+            <a href={explorerAddr(config.governor)} target="_blank" rel="noreferrer">
+              <code>{short(config.governor)}</code>
+            </a>
+          </dd>
         </div>
         <div>
           <dt>Voting window</dt>

@@ -7,8 +7,12 @@ import {fmt, short} from "./lib/format";
 import {VaultPanel} from "./components/VaultPanel";
 import {Proposals} from "./components/Proposals";
 import {WatcherPanel} from "./components/WatcherPanel";
+import {AgentsPanel} from "./components/AgentsPanel";
 import {GovernorPanel} from "./components/GovernorPanel";
+import {RiskPanel} from "./components/RiskPanel";
+import {BasketPanel} from "./components/BasketPanel";
 import {EquityChart} from "./components/EquityChart";
+import {useFundHistory} from "./hooks/useHistory";
 
 const MARK = (
   <svg viewBox="0 0 612 759" fill="currentColor" aria-hidden="true" className="mark">
@@ -188,6 +192,7 @@ function VaultDetail({config, onBack}: {config: VaultConfig; onBack: () => void}
   const v = useVault(config.vault);
   const gov = useGovernorParams(config.governor);
   const {proposals, isLoading: propsLoading} = useProposals(config.governor, config.vault);
+  const {points} = useFundHistory(config.slug, "7d");
 
   return (
     <section className="detail">
@@ -209,16 +214,19 @@ function VaultDetail({config, onBack}: {config: VaultConfig; onBack: () => void}
           <span>TVL &middot; {fmt(v.totalAssets, v.decimals)} {v.symbol}</span>
           <span className="pill">7d</span>
         </div>
-        <EquityChart slug={config.slug} decimals={v.decimals} />
+        <EquityChart slug={config.slug} decimals={v.decimals} points={points} />
       </div>
 
       <div className="detail-cols">
         <div className="detail-main">
+          <RiskPanel points={points} />
+          <BasketPanel />
           <h2>Proposals</h2>
           <Proposals config={config} />
         </div>
         <div className="detail-side">
           <VaultPanel config={config} />
+          <AgentsPanel config={config} />
           <GovernorPanel config={config} />
         </div>
       </div>
