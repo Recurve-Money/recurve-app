@@ -26,9 +26,9 @@ export const robinhood = defineChain({
  * VITE_ env vars so a preview deploy can point at a testnet.
  */
 export const addresses = {
-  registry: (import.meta.env.VITE_REGISTRY ?? "") as `0x${string}` | "",
-  /** $REVE, the token watchers stake. */
-  reve: (import.meta.env.VITE_REVE ?? "") as `0x${string}` | "",
+  registry: (import.meta.env.VITE_REGISTRY || "0x26ebF51c3D6967895F83b5C33664d99F1E42c97D") as `0x${string}` | "",
+  /** $RECURVE, the token watchers stake. */
+  reve: (import.meta.env.VITE_REVE || "0xf103C471DBCDE5C856559380432eFDC7e59Af9ec") as `0x${string}` | "",
 } as const;
 
 /**
@@ -63,6 +63,6 @@ export const vaults: VaultConfig[] = [
  * list rather than an error. Set this to the deploy block and the scan stays
  * cheap and complete.
  */
-export const deployBlock: bigint = BigInt(import.meta.env.VITE_DEPLOY_BLOCK ?? "0");
+export const deployBlock: bigint = BigInt(import.meta.env.VITE_DEPLOY_BLOCK || "103992284");
 
 export const isConfigured = vaults.length > 0 && addresses.registry !== "";
