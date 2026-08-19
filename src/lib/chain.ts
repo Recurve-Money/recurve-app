@@ -4,14 +4,14 @@ import {defineChain} from "viem";
  * Robinhood Chain. Not in viem's chain list, so it is defined here.
  */
 export const robinhood = defineChain({
-  id: 4663,
-  name: "Robinhood Chain",
+  id: 46630,
+  name: "Robinhood Chain Testnet",
   nativeCurrency: {name: "Ether", symbol: "ETH", decimals: 18},
   rpcUrls: {
-    default: {http: [import.meta.env.VITE_RPC_URL ?? "https://rpc.mainnet.chain.robinhood.com"]},
+    default: {http: [import.meta.env.VITE_RPC_URL ?? "https://rpc.testnet.chain.robinhood.com"]},
   },
   blockExplorers: {
-    default: {name: "Explorer", url: "https://explorer.mainnet.chain.robinhood.com"},
+    default: {name: "Explorer", url: "https://explorer.testnet.chain.robinhood.com"},
   },
 });
 
@@ -45,7 +45,15 @@ export interface VaultConfig {
   description?: string;
 }
 
-export const vaults: VaultConfig[] = [];
+export const vaults: VaultConfig[] = [
+  {
+    slug: "main",
+    name: "Recurve Fund",
+    vault: "0x235d0cE2Ca846495E9B9f18959A41f0625c0443D",
+    governor: "0xe0e209799d57E6A95F72BdAe4b148cEf6f03da1a",
+    description: "The first Recurve fund, on Robinhood Chain testnet.",
+  },
+];
 
 /**
  * Block the contracts went up. Log scans start here.
