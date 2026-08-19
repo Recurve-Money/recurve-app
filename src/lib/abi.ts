@@ -187,6 +187,41 @@ export const governorAbi = [
     stateMutability: "view",
   },
   {
+    type: "function",
+    name: "performanceFeeBps",
+    inputs: [],
+    outputs: [{type: "uint256"}],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "feeRecipient",
+    inputs: [],
+    outputs: [{type: "address"}],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "allAgents",
+    inputs: [],
+    outputs: [{type: "address[]"}],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "agentCount",
+    inputs: [],
+    outputs: [{type: "uint256"}],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "isAgent",
+    inputs: [{type: "address"}],
+    outputs: [{type: "bool"}],
+    stateMutability: "view",
+  },
+  {
     type: "event",
     name: "ProposalPosted",
     inputs: [

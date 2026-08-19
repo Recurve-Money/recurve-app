@@ -65,4 +65,9 @@ export const vaults: VaultConfig[] = [
  */
 export const deployBlock: bigint = BigInt(import.meta.env.VITE_DEPLOY_BLOCK || "103992284");
 
+/** recurve-api — the indexer. Used for history the chain itself cannot answer
+ *  cheaply (a chart needs many past blocks; the RPC does not). */
+export const apiUrl: string =
+  import.meta.env.VITE_API_URL || "https://recurve-api-production.up.railway.app";
+
 export const isConfigured = vaults.length > 0 && addresses.registry !== "";

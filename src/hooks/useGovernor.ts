@@ -130,6 +130,39 @@ export function useHasVetoed(governor: `0x${string}` | undefined, id: `0x${strin
   });
 }
 
+/**
+ * The parameters fixed at deploy time, plus the current agent set. One
+ * multicall: this is read-heavy chrome (a sidebar), not something that needs
+ * per-field loading states.
+ */
+export function useGovernorParams(governor?: `0x${string}`) {
+  const enabled = Boolean(governor);
+
+  const {data, isLoading} = useReadContracts({
+    contracts: enabled
+      ? ([
+          {address: governor!, abi: governorAbi, functionName: "vetoWindow"},
+          {address: governor!, abi: governorAbi, functionName: "vetoThresholdBps"},
+          {address: governor!, abi: governorAbi, functionName: "watcherBlockThreshold"},
+          {address: governor!, abi: governorAbi, functionName: "performanceFeeBps"},
+          {address: governor!, abi: governorAbi, functionName: "feeRecipient"},
+          {address: governor!, abi: governorAbi, functionName: "allAgents"},
+        ] as const)
+      : [],
+    query: {enabled, refetchInterval: 60_000},
+  });
+
+  return {
+    vetoWindow: (data?.[0]?.result as bigint | undefined) ?? 0n,
+    vetoThresholdBps: (data?.[1]?.result as bigint | undefined) ?? 0n,
+    watcherBlockThreshold: (data?.[2]?.result as bigint | undefined) ?? 0n,
+    performanceFeeBps: (data?.[3]?.result as bigint | undefined) ?? 0n,
+    feeRecipient: data?.[4]?.result as `0x${string}` | undefined,
+    agents: (data?.[5]?.result as readonly `0x${string}`[] | undefined) ?? [],
+    isLoading,
+  };
+}
+
 /** Vote weight the connected address had at a proposal's snapshot. */
 export function useWeightAt(vault: `0x${string}` | undefined, snapshot: bigint | undefined) {
   const {address} = useAccount();
