@@ -1,3 +1,13 @@
+# Moved to [Recurve-Money/recurve](https://github.com/Recurve-Money/recurve)
+
+This repository is archived. The site, the dApp, the docs and the indexer are built together
+and served from one address, so they now live in one repository:
+**[Recurve-Money/recurve](https://github.com/Recurve-Money/recurve)**. What was here is its `app/` folder.
+
+What follows is this repository's README as it was when it was last updated, in August 2026.
+
+---
+
 # recurve-app
 
 The Recurve dApp. Reads vault state from chain, handles deposits, redemptions,
